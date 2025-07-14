@@ -132,6 +132,7 @@ Deploy images and dashboards via Traefik reverse proxy using secure, cache-enabl
 
 For the **live version** of this dashboard, check out the latest deployment [here](https://barometer.jamessawyer.co.uk/).
 
+![HRRR Dashboard Image](https://barometer.jamessawyer.co.uk/static/hrrr_dashboard_2025071412_f04_39c63a61.png)
 
 
 ---
