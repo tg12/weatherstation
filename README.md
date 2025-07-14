@@ -1,28 +1,37 @@
 # Weather & Energy Forecasting Dashboard
 
-A **production-grade**, Python-based dashboard that retrieves and visualises high-frequency weather and energy-relevant data every 3 hours. Designed for scientific insight, business use, and AI training.
+A **production-grade**, Python-based dashboard that retrieves and visualizes high-frequency weather and energy-relevant data every few hours. Designed for scientific insight, business use, and AI training.
 
 ---
 
-##  Purpose & Target Audiences
+## Purpose & Target Audiences
 
-- **Retail Planners & Logistics**: Pre-position inventory (suncream, snow shovels, etc.) using heating/cooling indicators and precipitation forecasts.  
-- **Energy Analysts & Traders**: Model regional energy demand using detailed **Heating Degree Days (HDD)** and **Cooling Degree Days (CDD)** with CPC forecast overlays.  
-- **AI/Quant Developers**: Access timestamped, annotated forecast imagery to train **multi-modal models** on weather signals.  
-- **Geospatial Engineers**: A reference architecture for geospatial Python pipelines, model ingestion, and automated deployments.
+- **Retail Planners & Logistics**  
+  Pre-position inventory (suncream, snow shovels, etc.) using heating/cooling indicators and precipitation forecasts.
+
+- **Energy Analysts & Traders**  
+  Model regional energy demand using detailed **Heating Degree Days (HDD)** and **Cooling Degree Days (CDD)** with CPC forecast overlays.
+
+- **AI/Quant Developers**  
+  Access timestamped, annotated forecast imagery to train **multi-modal models** on weather signals.
+
+- **Geospatial Engineers**  
+  A reference architecture for geospatial Python pipelines, model ingestion, and automated deployments.
 
 ---
 
-##  Scientific Foundations
+## Scientific Foundations
 
 ### Numerical Weather Prediction (NWP)
 
-- **HRRR & GFS models via Herbie**: Herbie is a Python interface that downloads high-resolution weather model data (HRRR, GFS, including GRIB2 → xarray/cfgrib) 
+- **HRRR & GFS models via Herbie**  
+  Herbie is a Python interface that downloads high-resolution weather model data (HRRR, GFS, including GRIB2 → xarray/cfgrib).
+
 - NWP data is gridded at ~3 km resolution (HRRR) and updated hourly—ideal for high-frequency forecasting.
 
 ### Degree Days (HDD/CDD)
 
-## Calculations
+#### Calculations
 
 - **Heating Degree Days (HDD)**  
   \[
@@ -39,16 +48,15 @@ A **production-grade**, Python-based dashboard that retrieves and visualises hig
 
 > The Climate Prediction Center (CPC) calculates state-level HDD and CDD using weighted averages across climate divisions, adjusted by census-based population distribution.
 
-
 ### Ancillary Variables
 
 - **Thermofeel** computes “feels-like” temperature using humidity and wind.
-- **500 mb geopotential height** and **jet stream wind speeds** help identify large‑scale atmospheric patterns.
+- **500 mb geopotential height** and **jet stream wind speeds** help identify large-scale atmospheric patterns.
 - **Solar radiation**, **precipitation**, **cloud cover**, **surface pressure**, **dew point**, **CAPE** — all model energy generation and usage patterns at fine scales.
 
 ---
 
-##  Image Contents & Scientific Detail
+## Image Contents & Scientific Detail
 
 Each dashboard generates a multi-panel figure containing:
 
@@ -66,31 +74,60 @@ Each dashboard generates a multi-panel figure containing:
 | **Cloud Cover** | Percentage-based shading—controls solar potential and rainfall inference. |
 | **Feels-Like Temp** | Thermofeel output expressing human thermal stress. |
 | **Optional Panels** | Surface pressure, dew point, CAPE, relative humidity when available. |
-| **CPC Degree-Day Table** | State-level table for HDD/CDD — included as OCR/AI-friendly monospaced table.
+| **CPC Degree-Day Table** | State-level table for HDD/CDD — included as OCR/AI-friendly monospaced table. |
 
 ---
 
 ## System Architecture & Tech Stack
 
 - **Core Language**: Python  
-- **Data Ingestion**: Herbie + xarray/cfgrib (for GRIB2 parsing)
+- **Data Ingestion**: Herbie + xarray/cfgrib (for GRIB2 parsing)  
 - **Numeric Processing**: pandas, numpy (stacking, anomalies, computations)  
 - **Visualization**: cartopy (mapping), matplotlib, seaborn, Thermofeel  
 - **Deployment**: Linode VPS with Traefik edge router (Let's Encrypt TLS, service discovery)  
-- **CI/CD**: GitLab pipelines triggered every 3 hours to download data, build images, and deploy 
+- **CI/CD**: GitLab pipelines triggered every 3 hours to download data, build images, and deploy  
 - **Security**: SSL across all endpoints, timeouts, error checks, shapefile caching  
 
 ---
 
-## How It Works
+## Features
 
-1. **Cron-triggered** via GitLab every 3 hours  
-2. **Retrieve NWP variables** (`Herbie.download()` for TMP, U/V wind, APCP, HGT, DSWRF, etc.)  
-3. **CPC HDD/CDD ingestion/parsing** via CSV  
-4. **Compute variables**: anomaly, hdd, cdd, thermofeel, wind speed, etc.  
-5. **Generate multi-panel plots**: consistent color maps, labels, titles, and timestamp watermark  
-6. **Overlay CPC values** at geographic centroids  
-7. **Save PNGs** with unique UUID-timestamps  
-8. **Deploy via Traefik**, using secure routes and caching  
+### 1. Scheduled Execution
+Triggered automatically via GitLab CI/CD every few hours using a cron schedule.
+
+### 2. Data Acquisition
+Retrieve numerical weather prediction (NWP) variables using `Herbie.download()`. This includes:
+- Temperature (TMP)
+- Zonal and meridional wind components (U/V)
+- Precipitation (APCP)
+- Geopotential height (HGT)
+- Downward shortwave radiation flux (DSWRF)
+- Additional relevant meteorological fields
+
+### 3. CPC Data Ingestion
+Ingest and parse Climate Prediction Center (CPC) Heating Degree Days (HDD) and Cooling Degree Days (CDD) from CSV files.
+
+### 4. Derived Variable Computation
+Compute key derived metrics including:
+- Temperature anomalies
+- HDD and CDD
+- Thermofeel index
+- Wind speed and direction
+- Other custom indicators
+
+### 5. Visualization
+Generate multi-panel plots with:
+- Consistent colormaps and legends
+- Clear geographic labels and titles
+- Timestamp watermarks for traceability
+
+### 6. Geospatial Overlays
+Overlay CPC-derived values at corresponding geographic centroids for comparative analysis.
+
+### 7. Output Handling
+Save visual outputs as PNG images with unique UUID-based timestamps for archival and version control.
+
+### 8. Web Deployment
+Deploy images and dashboards via Traefik reverse proxy using secure, cache-enabled routes.
 
 ---
