@@ -83,15 +83,3 @@ Each dashboard generates a multi-panel figure containing:
 8. **Deploy via Traefik**, using secure routes and caching  
 
 ---
-
-##  Repository Structure
-
-/
-├── dashboard_images/         # Generated PNGs
-├── shapefiles/              # Optional local Natural Earth files
-├── static/                  # Served assets
-├── main.py                  # The main orchestration script
-├── requirements.txt         # Python dependencies
-├── .gitlab-ci.yml           # GitLab CI/CD steps
-├── traefik/                 # Reverse proxy configuration
-└── README.md                # You are here
