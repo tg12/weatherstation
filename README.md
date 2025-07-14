@@ -65,9 +65,8 @@ Each dashboard generates a multi-panel figure containing:
 - **Numeric Processing**: pandas, numpy (stacking, anomalies, computations)  
 - **Visualization**: cartopy (mapping), matplotlib, seaborn, Thermofeel  
 - **Deployment**: Linode VPS with Traefik edge router (Let's Encrypt TLS, service discovery)  
-- **CI/CD**: GitLab pipelines triggered every 3 hours to download data, build images, and deploy to webroot  
-- **Logging**: Custom-colored console logging with SMTP-ready alerts  
-- **Security**: SSL across all endpoints, timeouts, error checks, shapefile local caching  
+- **CI/CD**: GitLab pipelines triggered every 3 hours to download data, build images, and deploy 
+- **Security**: SSL across all endpoints, timeouts, error checks, shapefile caching  
 
 ---
 
