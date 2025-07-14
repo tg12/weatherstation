@@ -130,4 +130,8 @@ Save visual outputs as PNG images with unique UUID-based timestamps for archival
 ### 8. Web Deployment
 Deploy images and dashboards via Traefik reverse proxy using secure, cache-enabled routes.
 
+For the **live version** of this dashboard, check out the latest deployment [here](https://barometer.jamessawyer.co.uk/).
+
+
+
 ---
