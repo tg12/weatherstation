@@ -17,16 +17,28 @@ A **production-grade**, Python-based dashboard that retrieves and visualises hig
 
 ### Numerical Weather Prediction (NWP)
 
-- **HRRR & GFS models via Herbie**: Herbie is a Python interface that downloads high-resolution weather model data (HRRR, GFS, including GRIB2 → xarray/cfgrib) :contentReference[oaicite:1]{index=1}  
+- **HRRR & GFS models via Herbie**: Herbie is a Python interface that downloads high-resolution weather model data (HRRR, GFS, including GRIB2 → xarray/cfgrib) 
 - NWP data is gridded at ~3 km resolution (HRRR) and updated hourly—ideal for high-frequency forecasting.
 
 ### Degree Days (HDD/CDD)
 
-- **Calculations**:
-  - **HDD** = max(0, Tₚₑₙₑᵣₐₜᵤᵣₑ _base_ − Tₘₑₐₙ)
-  - **CDD** = max(0, Tₘₑₐₙ − Tₚₑₙₑᵣₐₜᵤᵣₑ _base_)
-  - Standard base: **18 °C (65 °F)** :contentReference[oaicite:2]{index=2}  
-- CPC computes state-level HDD/CDD via weighted climate divisions using census-based population distribution :contentReference[oaicite:3]{index=3}.
+## Calculations
+
+- **Heating Degree Days (HDD)**  
+  \[
+  \text{HDD} = \max(0, T_{\text{base}} - T_{\text{mean}})
+  \]
+
+- **Cooling Degree Days (CDD)**  
+  \[
+  \text{CDD} = \max(0, T_{\text{mean}} - T_{\text{base}})
+  \]
+
+- **Standard Base Temperature**:  
+  **18 °C (65 °F)**
+
+> The Climate Prediction Center (CPC) calculates state-level HDD and CDD using weighted averages across climate divisions, adjusted by census-based population distribution.
+
 
 ### Ancillary Variables
 
@@ -61,7 +73,7 @@ Each dashboard generates a multi-panel figure containing:
 ## System Architecture & Tech Stack
 
 - **Core Language**: Python  
-- **Data Ingestion**: Herbie + xarray/cfgrib (for GRIB2 parsing) :contentReference[oaicite:4]{index=4}  
+- **Data Ingestion**: Herbie + xarray/cfgrib (for GRIB2 parsing)
 - **Numeric Processing**: pandas, numpy (stacking, anomalies, computations)  
 - **Visualization**: cartopy (mapping), matplotlib, seaborn, Thermofeel  
 - **Deployment**: Linode VPS with Traefik edge router (Let's Encrypt TLS, service discovery)  
